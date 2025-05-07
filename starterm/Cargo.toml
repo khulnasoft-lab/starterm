@@ -1,6 +1,6 @@
 [package]
 name = "starterm"
-version = "0.16.0-dev"
+version = "0.1.1-dev"
 authors = ["Md Sulaiman <admin@khulnasoft.com>"]
 license = "Apache-2.0"
 description = "A fast, cross-platform, OpenGL terminal emulator"
@@ -16,11 +16,11 @@ version = "0.25.1-dev"
 
 [dependencies.starterm_config_derive]
 path = "../config_derive"
-version = "0.2.5-dev"
+version = "0.1.1-dev"
 
 [dependencies.starterm_config]
 path = "../config"
-version = "0.2.3-dev"
+version = "0.1.1-dev"
 
 [dependencies]
 ahash = { version = "0.8.6", features = ["no-rng"] }
