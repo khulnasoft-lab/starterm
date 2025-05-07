@@ -1,0 +1,5 @@
+[undeadleech@undeadlap starterm]$ echo -e "\e[4mUNDERLINED"
+[4mUNDERLINED
+[undeadleech@undeadlap starterm]$ clear
+[3J[H[2J[undeadleech@undeadlap starterm]$ exit
+exit
