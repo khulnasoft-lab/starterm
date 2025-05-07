@@ -75,9 +75,9 @@ If changes could affect throughput or latency of Starterm, these aspects should 
 prevent potential regressions. Since there are often big performance differences between Rust's
 nightly releases, it's advised to perform these tests on the latest Rust stable release.
 
-Starterm mainly uses the [vtebench](https://github.com/starterm/vtebench) tool for testing Starterm's
+Starterm mainly uses the [vtebench](https://github.com/khulnasoft/vtebench) tool for testing Starterm's
 performance. Instructions on how to use it can be found in its
-[README](https://github.com/starterm/vtebench/blob/master/README.md).
+[README](https://github.com/khulnasoft/vtebench/blob/master/README.md).
 
 Latency is another important factor for Starterm. On X11, Windows, and macOS the
 [typometer](https://github.com/pavelfatin/typometer) tool allows measuring keyboard latency.

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- SPDX-License-Identifier: MIT -->
 <component type="desktop-application">
-  <id>org.starterm.Starterm</id>
+  <id>org.khulnasoft.Starterm</id>
 
   <developer_name>Md Sulaiman</developer_name>
-  <developer id="org.starterm">
+  <developer id="org.khulnasoft">
     <name>Md Sulaiman</name>
   </developer>
 

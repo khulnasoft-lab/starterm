@@ -333,8 +333,8 @@ Notable changes to the `starterm_terminal` crate are documented in its
 ### Packaging
 
 - Minimum Rust version has been bumped to 1.57.0
-- Renamed `io.starterm.Starterm.appdata.xml` to `org.starterm.Starterm.appdata.xml`
-- Renamed `io.starterm` to `org.starterm` for `Starterm.app`
+- Renamed `io.starterm.Starterm.appdata.xml` to `org.khulnasoft.Starterm.appdata.xml`
+- Renamed `io.starterm` to `org.khulnasoft` for `Starterm.app`
 
 ### Added
 

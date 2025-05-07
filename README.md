@@ -83,7 +83,7 @@ A guideline about contributing to Starterm can be found in the
 **_Is it really the fastest terminal emulator?_**
 
 Benchmarking terminal emulators is complicated. Starterm uses
-[vtebench](https://github.com/starterm/vtebench) to quantify terminal emulator
+[vtebench](https://github.com/khulnasoft/vtebench) to quantify terminal emulator
 throughput and manages to consistently score better than the competition using
 it. If you have found an example where this is not the case, please report a
 bug.
