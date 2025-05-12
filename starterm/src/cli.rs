@@ -4,10 +4,10 @@ use std::ops::{Deref, DerefMut};
 use std::path::PathBuf;
 use std::rc::Rc;
 
-use starterm_config::SerdeReplace;
 use clap::{ArgAction, Args, Parser, Subcommand, ValueHint};
 use log::{error, LevelFilter};
 use serde::{Deserialize, Serialize};
+use starterm_config::SerdeReplace;
 use toml::Value;
 
 use starterm_terminal::tty::Options as PtyOptions;

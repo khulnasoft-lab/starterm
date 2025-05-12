@@ -3,7 +3,7 @@ members = [
     "starterm",
     "term",
     "config",
-    "config_derive",
+    "config/derive",
 ]
 resolver = "2"
 

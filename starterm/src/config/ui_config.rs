@@ -5,12 +5,12 @@ use std::fmt::{self, Formatter};
 use std::path::PathBuf;
 use std::rc::Rc;
 
-use starterm_config::SerdeReplace;
-use starterm_terminal::term::Config as TermConfig;
-use starterm_terminal::tty::{Options as PtyOptions, Shell};
 use log::{error, warn};
 use serde::de::{Error as SerdeError, MapAccess, Visitor};
 use serde::{Deserialize, Deserializer};
+use starterm_config::SerdeReplace;
+use starterm_terminal::term::Config as TermConfig;
+use starterm_terminal::tty::{Options as PtyOptions, Shell};
 use unicode_width::UnicodeWidthChar;
 use winit::keyboard::{Key, ModifiersState};
 

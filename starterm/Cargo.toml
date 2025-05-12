@@ -15,7 +15,7 @@ path = "../term"
 version = "0.25.1-dev"
 
 [dependencies.starterm_config_derive]
-path = "../config_derive"
+path = "../config/derive"
 version = "0.1.1-dev"
 
 [dependencies.starterm_config]

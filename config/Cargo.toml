@@ -15,5 +15,5 @@ serde = "1.0.163"
 toml = "0.8.2"
 
 [dev-dependencies]
-starterm_config_derive = { version = "0.1.1-dev", path = "../config_derive" }
+starterm_config_derive = { version = "0.1.1-dev", path = "./derive" }
 serde = { version = "1.0.163", features = ["derive"] }
