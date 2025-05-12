@@ -1,5 +1,5 @@
 <p align="center">
-    <img width="200" alt="Starterm Logo" src="https://raw.githubusercontent.com/khulnasoft/starterm/master/extra/logo/compat/starterm-term%2Bscanlines.png">
+    <img width="200" alt="Starterm Logo" src="https://raw.githubusercontent.com/khulnasoft/starterm/v0.1.1/extra/logo/compat/starterm.png">
 </p>
 
 <h1 align="center">Starterm - A fast, cross-platform, OpenGL terminal emulator</h1>
