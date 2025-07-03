@@ -16,6 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Create dummy .auth file
+        shell: bash
         run: |
           mkdir -p benchmark
           echo "dummy_token" > benchmark/.auth
