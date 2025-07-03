@@ -4,8 +4,8 @@ use std::ffi::CStr;
 use std::fs::File;
 use std::io::{Error, ErrorKind, Read, Result};
 use std::mem::MaybeUninit;
-use std::os::fd::OwnedFd as StdOwnedFd;
-use std::os::unix::io::{AsRawFd, FromRawFd};
+use std::os::fd::OwnedFd;
+use std::os::unix::io::AsRawFd;
 use std::os::unix::net::UnixStream;
 use std::os::unix::process::CommandExt;
 #[cfg(target_os = "macos")]
@@ -18,8 +18,6 @@ use libc::{c_int, TIOCSCTTY};
 use log::error;
 use polling::{Event, PollMode, Poller};
 use rustix_openpty::openpty;
-use rustix_openpty::rustix::fd::OwnedFd as RustixOwnedFd;
-use rustix_openpty::rustix::fd::{AsRawFd as RustixAsRawFd, FromRawFd as RustixFromRawFd};
 use rustix_openpty::rustix::termios::Winsize;
 #[cfg(any(target_os = "linux", target_os = "macos"))]
 use rustix_openpty::rustix::termios::{self, InputModes, OptionalActions};
@@ -54,7 +52,7 @@ fn set_controlling_terminal(fd: c_int) {
     };
 
     if res < 0 {
-        die!("ioctl TIOCSCTTY failed: {err}"or::last_os_error());
+        die!("ioctl TIOCSCTTY failed: {}", Error::last_os_error());
     }
 }
 
@@ -84,11 +82,11 @@ fn get_pw_entry(buf: &mut [i8; 1024]) -> Result<Passwd<'_>> {
     let entry = unsafe { entry.assume_init() };
 
     if status < 0 {
-        return Err(Error::new(ErrorKind::Other, "getpwuid_r failed"));
+        return Err(Error::other("getpwuid_r failed"));
     }
 
     if res.is_null() {
-        return Err(Error::new(ErrorKind::Other, "pw not found"));
+        return Err(Error::other("pw not found"));
     }
 
     // Sanity check.
@@ -196,44 +194,21 @@ fn default_shell_command(shell: &str, user: &str, home: &str) -> Command {
 
 /// Create a new TTY and return a handle to interact with it.
 pub fn new(config: &Options, window_size: WindowSize, window_id: u64) -> Result<Pty> {
-    let pty = openpty(None, Some(&window_size.to_winsize()))
-        .map_err(|e| Error::new(ErrorKind::Other, format!("openpty error: {:?}", e)))?;
+    let pty = openpty(None, Some(&window_size.to_winsize()))?;
     let (master, slave) = (pty.controller, pty.user);
-    
-    // Convert Rustix OwnedFd to Std OwnedFd
-    let master_fd = master.as_raw_fd();
-    let slave_fd = slave.as_raw_fd();
-    
-    // Create new StdOwnedFd instances from the raw file descriptors
-    // We're taking ownership of the fds, so we need to forget the original handles
-    let std_master = unsafe { StdOwnedFd::from_raw_fd(master_fd) };
-    let std_slave = unsafe { StdOwnedFd::from_raw_fd(slave_fd) };
-    
-    // Forget the original handles to avoid double close
-    std::mem::forget(master);
-    std::mem::forget(slave);
-    
-    from_fd(config, window_id, std_master, std_slave)
+    from_fd(config, window_id, master, slave)
 }
 
 /// Create a new TTY from a PTY's file descriptors.
-pub fn from_fd(config: &Options, window_id: u64, master: StdOwnedFd, slave: StdOwnedFd) -> Result<Pty> {
+pub fn from_fd(config: &Options, window_id: u64, master: OwnedFd, slave: OwnedFd) -> Result<Pty> {
     let master_fd = master.as_raw_fd();
     let slave_fd = slave.as_raw_fd();
 
     #[cfg(any(target_os = "linux", target_os = "macos"))]
-    {
-        // Create a Rustix OwnedFd from the raw fd for termios operations
-        let rustix_master = unsafe { RustixOwnedFd::from_raw_fd(master_fd) };
-        
-        if let Ok(mut termios) = termios::tcgetattr(&rustix_master) {
-            // Set character encoding to UTF-8.
-            termios.input_modes.set(InputModes::IUTF8, true);
-            let _ = termios::tcsetattr(&rustix_master, OptionalActions::Now, &termios);
-        }
-        
-        // We need to forget the rustix_master so it doesn't close the fd when dropped
-        std::mem::forget(rustix_master);
+    if let Ok(mut termios) = termios::tcgetattr(&master) {
+        // Set character encoding to UTF-8.
+        termios.input_modes.set(InputModes::IUTF8, true);
+        let _ = termios::tcsetattr(&master, OptionalActions::Now, &termios);
     }
 
     let user = ShellUser::from_env()?;
@@ -253,7 +228,7 @@ pub fn from_fd(config: &Options, window_id: u64, master: StdOwnedFd, slave: StdO
 
     // Setup shell environment.
     let window_id = window_id.to_string();
-    builder.env("STERTERM_WINDOW_ID", &window_id);
+    builder.env("STARTERM_WINDOW_ID", &window_id);
     builder.env("USER", user.user);
     builder.env("HOME", user.home);
     // Set Window ID for clients relying on X11 hacks.
@@ -272,7 +247,7 @@ pub fn from_fd(config: &Options, window_id: u64, master: StdOwnedFd, slave: StdO
             // Create a new process group.
             let err = libc::setsid();
             if err == -1 {
-                return Err(Error::new(ErrorKind::Other, "Failed to set session id"));
+                return Err(Error::other("Failed to set session id"));
             }
 
             // Set working directory, ignoring invalid paths.
@@ -436,7 +411,7 @@ impl OnResize for Pty {
         let res = unsafe { libc::ioctl(self.file.as_raw_fd(), libc::TIOCSWINSZ, &win as *const _) };
 
         if res < 0 {
-            die!("ioctl TIOCSWINSZ failed: {err}"or::last_os_error());
+            die!("ioctl TIOCSWINSZ failed: {}", Error::last_os_error());
         }
     }
 }
