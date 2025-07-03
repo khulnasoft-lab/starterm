@@ -112,6 +112,7 @@ pub trait ActionContext<T: EventListener> {
     fn clipboard_mut(&mut self) -> &mut Clipboard;
     fn scheduler_mut(&mut self) -> &mut Scheduler;
     fn start_search(&mut self, _direction: Direction) {}
+    fn start_seeded_search(&mut self, _direction: Direction, _text: String) {}
     fn confirm_search(&mut self) {}
     fn cancel_search(&mut self) {}
     fn search_input(&mut self, _c: char) {}
@@ -278,6 +279,21 @@ impl<T: EventListener> Execute<T> for Action {
             },
             Action::Vi(ViAction::InlineSearchNext) => ctx.inline_search_next(),
             Action::Vi(ViAction::InlineSearchPrevious) => ctx.inline_search_previous(),
+            Action::Vi(ViAction::SemanticSearchForward | ViAction::SemanticSearchBackward) => {
+                let seed_text = match ctx.terminal().selection_to_string() {
+                    Some(selection) if !selection.is_empty() => selection,
+                    // Get semantic word at the vi cursor position.
+                    _ => ctx.semantic_word(ctx.terminal().vi_mode_cursor.point),
+                    };
+
+                    if !seed_text.is_empty() {
+                    let direction = match self {
+                        Action::Vi(ViAction::SemanticSearchForward) => Direction::Right,
+                        _ => Direction::Left,
+                    };
+                    ctx.start_seeded_search(direction, seed_text);
+                    }
+                },
             action @ Action::Search(_) if !ctx.search_active() => {
                 debug!("Ignoring {action:?}: Search mode inactive");
             },
@@ -1235,6 +1251,10 @@ mod tests {
         }
 
         fn scheduler_mut(&mut self) -> &mut Scheduler {
+            unimplemented!();
+        }
+
+        fn semantic_word(&self, _point: Point) -> String {
             unimplemented!();
         }
     }

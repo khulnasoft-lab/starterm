@@ -54,7 +54,7 @@ fn set_controlling_terminal(fd: c_int) {
     };
 
     if res < 0 {
-        die!("ioctl TIOCSCTTY failed: {}", Error::last_os_error());
+        die!("ioctl TIOCSCTTY failed: {err}"or::last_os_error());
     }
 }
 
@@ -408,7 +408,7 @@ impl EventedPty for Pty {
         let mut buf = [0u8; 1];
         if let Err(err) = self.signals.read(&mut buf) {
             if err.kind() != ErrorKind::WouldBlock {
-                error!("Error reading from signal pipe: {}", err);
+                error!("Error reading from signal pipe: {err}");
             }
             return None;
         }
@@ -416,7 +416,7 @@ impl EventedPty for Pty {
         // Match on the child process.
         match self.child.try_wait() {
             Err(err) => {
-                error!("Error checking child process termination: {}", err);
+                error!("Error checking child process termination: {err}");
                 None
             },
             Ok(None) => None,
@@ -436,7 +436,7 @@ impl OnResize for Pty {
         let res = unsafe { libc::ioctl(self.file.as_raw_fd(), libc::TIOCSWINSZ, &win as *const _) };
 
         if res < 0 {
-            die!("ioctl TIOCSWINSZ failed: {}", Error::last_os_error());
+            die!("ioctl TIOCSWINSZ failed: {err}"or::last_os_error());
         }
     }
 }

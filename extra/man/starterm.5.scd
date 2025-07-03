@@ -1,4 +1,4 @@
-STERTERM(5)
+STARTERM(5)
 
 # NAME
 
@@ -14,9 +14,9 @@ can be found at _https://toml.io/en/v1.0.0_.
 Starterm doesn't create the config file for you, but it looks for one in the
 following locations on UNIX systems:
 
-. _$XDG_CONFIG_HOME/khulnasoft/starterm.toml_
+. _$XDG_CONFIG_HOME/starterm/starterm.toml_
 . _$XDG_CONFIG_HOME/starterm.toml_
-. _$HOME/.config/khulnasoft/starterm.toml_
+. _$HOME/.config/starterm/starterm.toml_
 . _$HOME/.starterm.toml_
 
 On Windows, the config file will be looked for in:
@@ -894,6 +894,10 @@ _https://docs.rs/winit/latest/winit/keyboard/enum.Key.html#variant.Dead_
 			Move to end of whitespace separated word.
 		*Bracket*
 			Move to opposing bracket.
+		*ParagraphUp*
+			Move above the current paragraph.
+		*ParagraphDown*
+			Move below the current paragraph.
 		*ToggleNormalSelection*
 			Toggle normal vi selection.
 		*ToggleLineSelection*
@@ -926,6 +930,10 @@ _https://docs.rs/winit/latest/winit/keyboard/enum.Key.html#variant.Dead_
 			Jump to the next inline search match.
 		*InlineSearchPrevious*
 			Jump to the previous inline search match.
+		*SemanticSearchForward*
+			Search forward for selection or word under the cursor.
+		*SemanticSearchBackward*
+			Search backward for selection or word under the cursor.
 
 		_Search actions:_
 
@@ -1020,11 +1028,11 @@ relied upon.
 
 	Default: _"Warn"_
 
-	To add extra libraries to logging _STERTERM_EXTRA_LOG_TARGETS_ variable
+	To add extra libraries to logging _STARTERM_EXTRA_LOG_TARGETS_ variable
 	can be used.
 
 	Example:
-		_STERTERM_EXTRA_LOG_TARGETS="winit;vte" starterm -vvv_
+		_STARTERM_EXTRA_LOG_TARGETS="winit;vte" starterm -vvv_
 
 *renderer* = _"glsl3"_ | _"gles2"_ | _"gles2pure"_ | _"None"_
 
@@ -1059,8 +1067,3 @@ relied upon.
 # BUGS
 
 Found a bug? Please report it at _https://github.com/khulnasoft/starterm/issues_.
-
-# MAINTAINERS
-
-- Md Sulaiman <admin@khulnasoft.com>
-- Kirill Chibisov <contact@kchibisov.com>
