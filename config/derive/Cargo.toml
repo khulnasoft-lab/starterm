@@ -1,0 +1,28 @@
+[package]
+name = "starterm_config_derive"
+version = "0.1.1-dev"
+authors = ["Md Sulaiman <admin@khulnasoft.com>"]
+license = "MIT OR Apache-2.0"
+description = "Failure resistant deserialization derive"
+homepage = "https://starterm.org"
+repository = "https://github.com/khulnasoft/starterm"
+edition = "2021"
+rust-version = "1.74.0"
+
+[lib]
+proc-macro = true
+
+[dependencies]
+proc-macro2 = "1.0.24"
+quote = "1.0.7"
+syn = { version = "2.0.16", features = ["derive", "parsing", "proc-macro", "printing"], default-features = false }
+
+[dev-dependencies.starterm_config]
+path = "../"
+version = "0.1.1-dev"
+
+[dev-dependencies]
+log = "0.4.11"
+serde = { version = "1.0.117", features = ["derive"] }
+toml = "0.8.2"
+

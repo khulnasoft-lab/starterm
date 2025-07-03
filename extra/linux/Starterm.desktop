@@ -1,0 +1,18 @@
+[Desktop Entry]
+Type=Application
+TryExec=starterm
+Exec=starterm
+Icon=Starterm
+Terminal=false
+Categories=System;TerminalEmulator;
+
+Name=Starterm
+GenericName=Terminal
+Comment=A fast, cross-platform, OpenGL terminal emulator
+StartupNotify=true
+StartupWMClass=Starterm
+Actions=New;
+
+[Desktop Action New]
+Name=New Terminal
+Exec=starterm
