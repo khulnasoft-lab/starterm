@@ -13,6 +13,7 @@ Notable changes to the `starterm_terminal` crate are documented in its
 ### Changed
 
 - Hide login message if `~/.hushlogin` is present
+- Crash when `AppleFontSmoothing` option is not present on macOS
 
 ### Fixed
 

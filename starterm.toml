@@ -1,0 +1,5 @@
+[general]
+theme = "one_light"
+import = [
+    "/themes/{theme}.toml"
+]
