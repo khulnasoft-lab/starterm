@@ -23,7 +23,7 @@ use crate::message_bar::{Message, MessageType};
 pub const LOG_TARGET_IPC_CONFIG: &str = "starterm_log_window_config";
 
 /// Name for the environment variable containing the log file's path.
-const STERTERM_LOG_ENV: &str = "STERTERM_LOG";
+const STARTERM_LOG_ENV: &str = "STARTERM_LOG";
 
 /// Logging target for config error messages.
 pub const LOG_TARGET_CONFIG: &str = "starterm_config_derive";
@@ -34,14 +34,14 @@ pub const LOG_TARGET_WINIT: &str = "starterm_winit_event";
 /// Name for the environment variable containing extra logging targets.
 ///
 /// The targets are semicolon separated.
-const STERTERM_EXTRA_LOG_TARGETS_ENV: &str = "STERTERM_EXTRA_LOG_TARGETS";
+const STARTERM_EXTRA_LOG_TARGETS_ENV: &str = "STARTERM_EXTRA_LOG_TARGETS";
 
 /// User configurable extra log targets to include.
 fn extra_log_targets() -> &'static [String] {
     static EXTRA_LOG_TARGETS: OnceLock<Vec<String>> = OnceLock::new();
 
     EXTRA_LOG_TARGETS.get_or_init(|| {
-        env::var(STERTERM_EXTRA_LOG_TARGETS_ENV)
+        env::var(STARTERM_EXTRA_LOG_TARGETS_ENV)
             .map_or(Vec::new(), |targets| targets.split(';').map(ToString::to_string).collect())
     })
 }
@@ -108,9 +108,9 @@ impl Logger {
         };
 
         #[cfg(not(windows))]
-        let env_var = format!("${STERTERM_LOG_ENV}");
+        let env_var = format!("${STARTERM_LOG_ENV}");
         #[cfg(windows)]
-        let env_var = format!("%{}%", STERTERM_LOG_ENV);
+        let env_var = format!("%{}%", STARTERM_LOG_ENV);
 
         let message = format!(
             "[{}] {}\nSee log at {} ({})",
@@ -204,7 +204,7 @@ impl OnDemandLogFile {
         path.push(format!("Starterm-{}.log", process::id()));
 
         // Set log path as an environment variable.
-        env::set_var(STERTERM_LOG_ENV, path.as_os_str());
+        env::set_var(STARTERM_LOG_ENV, path.as_os_str());
 
         OnDemandLogFile { path, file: None, created: Arc::new(AtomicBool::new(false)) }
     }

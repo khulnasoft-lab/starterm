@@ -1,0 +1,14 @@
+[package]
+name = "termbench"
+version = "0.1.1"
+authors = ["Md Sulaiman <admin@khulnasoft.com>"]
+license = "MIT/Apache-2.0"
+description = "Terminal emulators benchmark"
+readme = "README.md"
+repository = "https://github.com/khulnasoft-lab/starterm"
+edition = "2021"
+rust-version = "1.74.0"
+
+[dependencies]
+clap = { version = "4.5.24", features = ["derive"] }
+walkdir = "2.3.1"

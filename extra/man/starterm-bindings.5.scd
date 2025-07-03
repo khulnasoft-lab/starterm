@@ -585,7 +585,7 @@ configuration. See *starterm*(5) for full configuration format documentation.
 
 # BUGS
 
-Found a bug? Please report it at _https://github.com/khulnasoft/starterm/issues_.
+Found a bug? Please report it at _https://github.com/khulnasoft-lab/starterm/issues_.
 
 # MAINTAINERS
 

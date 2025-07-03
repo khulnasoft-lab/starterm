@@ -1,7 +1,9 @@
+use serde::Serialize;
+
 use starterm_config_derive::ConfigDeserialize;
 use starterm_terminal::term::SEMANTIC_ESCAPE_CHARS;
 
-#[derive(ConfigDeserialize, Clone, Debug, PartialEq, Eq)]
+#[derive(ConfigDeserialize, Serialize, Clone, Debug, PartialEq, Eq)]
 pub struct Selection {
     pub semantic_escape_chars: String,
     pub save_to_clipboard: bool,

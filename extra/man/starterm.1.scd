@@ -68,9 +68,9 @@ set of features with high performance.
 	Starterm doesn't create the config file for you, but it looks for one in the
 	following locations on UNIX systems:
 
-		. _$XDG_CONFIG_HOME/khulnasoft/starterm.toml_
+		. _$XDG_CONFIG_HOME/khulnasoft-lab/starterm.toml_
 		. _$XDG_CONFIG_HOME/starterm.toml_
-		. _$HOME/.config/khulnasoft/starterm.toml_
+		. _$HOME/.config/khulnasoft-lab/starterm.toml_
 		. _$HOME/.starterm.toml_
 
 	On Windows, the config file will be looked for in:
@@ -141,7 +141,7 @@ set of features with high performance.
 
 # BUGS
 
-Found a bug? Please report it at _https://github.com/khulnasoft/starterm/issues_.
+Found a bug? Please report it at _https://github.com/khulnasoft-lab/starterm/issues_.
 
 # MAINTAINERS
 

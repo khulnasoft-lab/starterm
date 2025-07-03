@@ -84,7 +84,7 @@ making it possible to control Starterm without directly accessing it.
 
 # BUGS
 
-Found a bug? Please report it at _https://github.com/khulnasoft/starterm/issues_.
+Found a bug? Please report it at _https://github.com/khulnasoft-lab/starterm/issues_.
 
 # MAINTAINERS
 

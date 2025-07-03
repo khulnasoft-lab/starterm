@@ -54,7 +54,7 @@ Please refer to the [Dependencies](#dependencies) section.
 Before compiling Starterm, you'll have to first clone the source code:
 
 ```sh
-git clone https://github.com/khulnasoft/starterm.git
+git clone https://github.com/khulnasoft-lab/starterm.git
 cd starterm
 ```
 

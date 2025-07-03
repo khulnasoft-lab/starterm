@@ -6,7 +6,7 @@ if [ $# -lt 2 ]; then
     exit 1
 fi
 
-repo="khulnasoft/starterm"
+repo="khulnasoft-lab/starterm"
 file_path=$1
 bearer=$2
 

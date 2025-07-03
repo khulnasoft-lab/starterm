@@ -4,10 +4,10 @@ use std::ops::{Deref, DerefMut};
 use std::path::PathBuf;
 use std::rc::Rc;
 
+use starterm_config::SerdeReplace;
 use clap::{ArgAction, Args, Parser, Subcommand, ValueHint};
 use log::{error, LevelFilter};
 use serde::{Deserialize, Serialize};
-use starterm_config::SerdeReplace;
 use toml::Value;
 
 use starterm_terminal::tty::Options as PtyOptions;
@@ -34,7 +34,7 @@ pub struct Options {
     pub embed: Option<String>,
 
     /// Specify alternative configuration file [default:
-    /// $XDG_CONFIG_HOME/khulnasoft/starterm.toml].
+    /// $XDG_CONFIG_HOME/starterm/starterm.toml].
     #[cfg(not(any(target_os = "macos", windows)))]
     #[clap(long, value_hint = ValueHint::FilePath)]
     pub config_file: Option<PathBuf>,
@@ -44,7 +44,7 @@ pub struct Options {
     #[clap(long, value_hint = ValueHint::FilePath)]
     pub config_file: Option<PathBuf>,
 
-    /// Specify alternative configuration file [default: $HOME/.config/khulnasoft/starterm.toml].
+    /// Specify alternative configuration file [default: $HOME/.config/starterm/starterm.toml].
     #[cfg(target_os = "macos")]
     #[clap(long, value_hint = ValueHint::FilePath)]
     pub config_file: Option<PathBuf>,
@@ -258,6 +258,9 @@ pub enum SocketMessage {
 
     /// Update the Starterm configuration.
     Config(IpcConfig),
+
+    /// Read runtime Starterm configuration.
+    GetConfig(IpcGetConfig),
 }
 
 /// Migrate the configuration file.
@@ -328,12 +331,23 @@ pub struct IpcConfig {
     /// Window ID for the new config.
     ///
     /// Use `-1` to apply this change to all windows.
-    #[clap(short, long, allow_hyphen_values = true, env = "STERTERM_WINDOW_ID")]
+    #[clap(short, long, allow_hyphen_values = true, env = "STARTERM_WINDOW_ID")]
     pub window_id: Option<i128>,
 
     /// Clear all runtime configuration changes.
     #[clap(short, long, conflicts_with = "options")]
     pub reset: bool,
+}
+
+/// Parameters to the `get-config` IPC subcommand.
+#[cfg(unix)]
+#[derive(Args, Serialize, Deserialize, Default, Debug, Clone, PartialEq, Eq)]
+pub struct IpcGetConfig {
+    /// Window ID for the config request.
+    ///
+    /// Use `-1` to get the global config.
+    #[clap(short, long, allow_hyphen_values = true, env = "STARTERM_WINDOW_ID")]
+    pub window_id: Option<i128>,
 }
 
 /// Parsed CLI config overrides.

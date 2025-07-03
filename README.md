@@ -1,12 +1,12 @@
 <p align="center">
-    <img width="200" alt="Starterm Logo" src="https://raw.githubusercontent.com/khulnasoft/starterm/v0.1.1/extra/logo/compat/starterm.png">
+    <img width="200" alt="Starterm Logo" src="https://raw.githubusercontent.com/khulnasoft-lab/starterm/v0.1.1/extra/logo/compat/starterm.png">
 </p>
 
 <h1 align="center">Starterm - A fast, cross-platform, OpenGL terminal emulator</h1>
 
 <p align="center">
   <img alt="Starterm - A fast, cross-platform, OpenGL terminal emulator"
-       src="https://raw.githubusercontent.com/khulnasoft/starterm/master/extra/promo/starterm-readme.png">
+       src="https://raw.githubusercontent.com/khulnasoft-lab/starterm/master/extra/promo/starterm-readme.png">
 </p>
 
 ## About
@@ -21,7 +21,7 @@ The software is considered to be at a **beta** level of readiness; there are
 a few missing features and bugs to be fixed, but it is already used by many as
 a daily driver.
 
-Precompiled binaries are available from the [GitHub releases page](https://github.com/khulnasoft/starterm/releases).
+Precompiled binaries are available from the [GitHub releases page](https://github.com/khulnasoft-lab/starterm/releases).
 
 Join [`#starterm`] on libera.chat if you have questions or looking for a quick help.
 
@@ -43,7 +43,7 @@ Starterm can be installed by using various package managers on Linux, BSD,
 macOS and Windows.
 
 Prebuilt binaries for macOS and Windows can also be downloaded from the
-[GitHub releases page](https://github.com/khulnasoft/starterm/releases).
+[GitHub releases page](https://github.com/khulnasoft-lab/starterm/releases).
 
 For everyone else, the detailed instructions to install Starterm can be found
 [here](INSTALL.md).
@@ -59,14 +59,14 @@ You can find the documentation for Starterm's configuration in `man 5
 starterm`, or by looking at [the website] if you do not have the manpages
 installed.
 
-[the website]: https://starterm.org/config-starterm.html
+[the website]: https://starterm.khulnasoft.com/config-starterm.html
 
 Starterm doesn't create the config file for you, but it looks for one in the
 following locations:
 
-1. `$XDG_CONFIG_HOME/khulnasoft/starterm.toml`
+1. `$XDG_CONFIG_HOME/khulnasoft-lab/starterm.toml`
 2. `$XDG_CONFIG_HOME/starterm.toml`
-3. `$HOME/.config/khulnasoft/starterm.toml`
+3. `$HOME/.config/khulnasoft-lab/starterm.toml`
 4. `$HOME/.starterm.toml`
 
 On Windows, the config file will be looked for in:
@@ -83,7 +83,7 @@ A guideline about contributing to Starterm can be found in the
 **_Is it really the fastest terminal emulator?_**
 
 Benchmarking terminal emulators is complicated. Starterm uses
-[vtebench](https://github.com/khulnasoft/vtebench) to quantify terminal emulator
+[termbench](https://github.com/khulnasoft-lab/termbench) to quantify terminal emulator
 throughput and manages to consistently score better than the competition using
 it. If you have found an example where this is not the case, please report a
 bug.
@@ -110,4 +110,4 @@ niceties like a GUI config editor.
 
 Starterm is released under the [Apache License, Version 2.0].
 
-[Apache License, Version 2.0]: https://github.com/khulnasoft/starterm/blob/master/LICENSE-APACHE
+[Apache License, Version 2.0]: https://github.com/khulnasoft-lab/starterm/blob/master/LICENSE-APACHE

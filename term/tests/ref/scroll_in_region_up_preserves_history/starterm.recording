@@ -1,4 +1,4 @@
-]0;undeadleech@archhq:~/programming/khulnasoft/starterm[?2004h[undeadleech@archhq starterm]$ ls -lah
+]0;undeadleech@archhq:~/programming/khulnasoft-lab/starterm[?2004h[undeadleech@archhq starterm]$ ls -lah
 [?2004l
 total 464K
 drwxr-xr-x 13 undeadleech undeadleech 4.0K Feb 12 20:50 .
@@ -30,65 +30,65 @@ drwxr-xr-x  3 undeadleech undeadleech 4.0K Oct 14  2022 .github
 drwxr-xr-x  2 undeadleech undeadleech 4.0K Sep  1  2022 ci
 -rw-r--r--  1 undeadleech undeadleech   32 Feb 12 20:50 size.json
 drwxr-xr-x  6 undeadleech undeadleech 4.0K Feb 12 18:19 target
--rw-r--r--  1 undeadleech undeadleechkhulnasoft/startermTODO
+-rw-r--r--  1 undeadleech undeadleechkhulnasoft-lab/startermTODO
 ]0;undeadleech@archhq:~/programming/starterm/starterm[?2004h[undeadleech@archhq starterm]$ echo -e "\e[1[K2r"
-[?2004lkhulnasoft/starterm
+[?2004lkhulnasoft-lab/starterm
 [2r
 ]0;undeadleech@archhq:~/programming/starterm/starterm[?2004h[undeadleech@archhq starterm]$ ls
 [?2004l
 starterm		 Cargo.toml	  grid.json	  rustfmt.toml
 starterm_config	 CHANGELOG.md	  INSTALL.md	  ci
 starterm_config_derive  config.json	  LICENSE-APACHE  size.json
-starterm.recording	 CONTRIBUTING.md khulnasoft/startermet
+starterm.recording	 CONTRIBUTING.md khulnasoft-lab/startermet
 starterm_terminal	 docs		  Makefile	  TODO
 Cargo.lock		 extra		  README.md
 ]0;undeadleech@archhq:~/programming/starterm/starterm[?2004h[undeadleech@archhq starterm]$ ls
 [?2004l
 starterm		 Cargo.toml	  grid.json	  rustfmt.toml
 starterm_config	 CHANGELOG.md	  INSTALL.md	  ci
-starterm_config_derive  config.json	khulnasoft/startermize.json
+starterm_config_derive  config.json	khulnasoft-lab/startermize.json
 starterm.recording	 CONTRIBUTING.md  LICENSE-MIT	  target
 starterm_terminal	 docs		  Makefile	  TODO
 Cargo.lock		 extra		  README.md
 ]0;undeadleech@archhq:~/programming/starterm/starterm[?2004h[undeadleech@archhq starterm]$ ls
 [?2004l
 starterm		 Cargo.toml	  grid.json	  rustfmt.toml
-starterm_config	 CHANGELOG.md	  INSTkhulnasoft/starterm
+starterm_config	 CHANGELOG.md	  INSTkhulnasoft-lab/starterm
 starterm_config_derive  config.json	  LICENSE-APACHE  size.json
 starterm.recording	 CONTRIBUTING.md  LICENSE-MIT	  target
 starterm_terminal	 docs		  Makefile	  TODO
 Cargo.lock		 extra		  README.md
 ]0;undeadleech@archhq:~/programming/starterm/starterm[?2004h[undeadleech@archhq starterm]$ ls
 [?2004l
-starterm		 Cargo.toml	  grid.json	  khulnasoft/starterm
+starterm		 Cargo.toml	  grid.json	  khulnasoft-lab/starterm
 starterm_config	 CHANGELOG.md	  INSTALL.md	  ci
 starterm_config_derive  config.json	  LICENSE-APACHE  size.json
 starterm.recording	 CONTRIBUTING.md  LICENSE-MIT	  target
 starterm_terminal	 docs		  Makefile	  TODO
 Cargo.lock		 extra		  README.md
 ]0;undeadleech@archhq:~/programming/starterm/starterm[?2004h[undeadleech@archhq starterm]$ ls
-[?2004lkhulnasoft/starterm
+[?2004lkhulnasoft-lab/starterm
 starterm		 Cargo.toml	  grid.json	  rustfmt.toml
 starterm_config	 CHANGELOG.md	  INSTALL.md	  ci
 starterm_config_derive  config.json	  LICENSE-APACHE  size.json
 starterm.recording	 CONTRIBUTING.md  LICENSE-MIT	  target
 starterm_terminal	 docs		  Makefile	  TODO
 Cargo.lock		 extra		  README.md
-]0;undeadleech@archhq:~/programming/khulnasoft/starterm[?2004h[undeadleech@archhq starterm]$ ls
+]0;undeadleech@archhq:~/programming/khulnasoft-lab/starterm[?2004h[undeadleech@archhq starterm]$ ls
 [?2004l
 starterm		 Cargo.toml	  grid.json	  rustfmt.toml
 starterm_config	 CHANGELOG.md	  INSTALL.md	  ci
 starterm_config_derive  config.json	  LICENSE-APACHE  size.json
 starterm.recording	 CONTRIBUTING.md  LICENSE-MIT	  target
 starterm_terminal	 docs		  Makefile	  TODO
-Cargo.lock		 extra		  README.mdkhulnasoft/starterm
+Cargo.lock		 extra		  README.mdkhulnasoft-lab/starterm
 ]0;undeadleech@archhq:~/programming/starterm/starterm[?2004h[undeadleech@archhq starterm]$ ls
 [?2004l
 starterm		 Cargo.toml	  grid.json	  rustfmt.toml
 starterm_config	 CHANGELOG.md	  INSTALL.md	  ci
 starterm_config_derive  config.json	  LICENSE-APACHE  size.json
 starterm.recording	 CONTRIBUTING.md  LICENSE-MIT	  target
-starterm_terminal	 docs		  Makefile	khulnasoft/starterm
+starterm_terminal	 docs		  Makefile	khulnasoft-lab/starterm
 Cargo.lock		 extra		  README.md
 ]0;undeadleech@archhq:~/programming/starterm/starterm[?2004h[undeadleech@archhq starterm]$ ls
 [?2004l

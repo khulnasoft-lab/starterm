@@ -1,5 +1,5 @@
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs" xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
-   <Package Name="Starterm" UpgradeCode="87c21c74-dbd5-4584-89d5-46d9cd0c40a7" Language="1033" Codepage="1252" Version="0.1.1-dev" Manufacturer="Starterm" InstallerVersion="200">
+   <Package Name="Starterm" UpgradeCode="87c21c74-dbd5-4584-89d5-46d9cd0c40a7" Language="1033" Codepage="1252" Version="0.16.0-dev" Manufacturer="Starterm" InstallerVersion="200">
       <MajorUpgrade AllowSameVersionUpgrades="yes" DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
       <Icon Id="StartermIco" SourceFile=".\starterm\windows\starterm.ico" />
       <WixVariable Id="WixUILicenseRtf" Value=".\starterm\windows\wix\license.rtf" />

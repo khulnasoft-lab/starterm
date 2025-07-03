@@ -34,13 +34,13 @@
 
   <screenshots>
     <screenshot type="default">
-      <image>https://raw.githubusercontent.com/khulnasoft/starterm/0a1e735cf6b13da1dbe5d161d17c8aa6c1692204/extra/promo/starterm-readme.png</image>
+      <image>https://raw.githubusercontent.com/khulnasoft-lab/starterm/0a1e735cf6b13da1dbe5d161d17c8aa6c1692204/extra/promo/starterm-readme.png</image>
       <caption>Starterm with default theme showing neovim</caption>
     </screenshot>
   </screenshots>
 
-  <url type="homepage">https://github.com/khulnasoft/starterm</url>
-  <url type="bugtracker">https://github.com/khulnasoft/starterm/issues</url>
+  <url type="homepage">https://github.com/khulnasoft-lab/starterm</url>
+  <url type="bugtracker">https://github.com/khulnasoft-lab/starterm/issues</url>
 
   <launchable type="desktop-id">Starterm.desktop</launchable>
 

@@ -12,6 +12,20 @@ COMPLETIONS = $(COMPLETIONS_DIR)/_starterm \
 	$(COMPLETIONS_DIR)/starterm.bash \
 	$(COMPLETIONS_DIR)/starterm.fish
 
+# Benchmark variables
+CARGO = cargo
+BENCH_BIN_NAME = starbench
+BENCH_SCRIPT = benchmark/clients/bench.sh
+BENCH_DIR = /tmp/benchdir
+BENCH_RESULTS_DIR = benchmark/results
+
+# Termbench variables
+TERMBENCH_DIR = termbench
+TERMBENCH_BIN = termbench
+TERMBENCH_RESULTS_DIR = $(TERMBENCH_DIR)/results
+TERMBENCH_BENCHMARK_DIR = $(TERMBENCH_DIR)/benchmarks
+TERMBENCH_GNUPLOT_DIR = $(TERMBENCH_DIR)/gnuplot
+
 APP_NAME = Starterm.app
 APP_TEMPLATE = $(ASSETS_DIR)/osx/$(APP_NAME)
 APP_DIR = $(RELEASE_DIR)/osx
@@ -81,3 +95,64 @@ $(INSTALL)-%: $(DMG_NAME)-%
 
 clean: ## Remove all build artifacts
 	@cargo clean
+	@rm -rf $(BENCH_DIR)
+
+clean-bench-results: ## Clean benchmark results
+	@rm -rf $(BENCH_RESULTS_DIR)
+
+# Benchmark targets
+bench-build: ## Build the benchmark project
+	@cd benchmark && $(CARGO) build --release
+
+bench-run: ## Run the benchmark server
+	@cd benchmark && $(CARGO) run --release
+
+bench: ## Run benchmarking script
+	@echo "Running benchmark..."
+	@if [ ! -d "$(BENCH_RESULTS_DIR)" ]; then mkdir -p $(BENCH_RESULTS_DIR); fi
+	@cd benchmark && $(BENCH_SCRIPT) $(TARGET_DIR)/release/$(BENCH_BIN_NAME) ./
+
+bench-test: ## Run benchmark tests
+	@cd benchmark && $(CARGO) test
+
+bench-fmt: ## Format benchmark code with rustfmt
+	@cd benchmark && $(CARGO) fmt
+
+bench-lint: ## Run clippy linter on benchmark code
+	@cd benchmark && $(CARGO) clippy
+
+bench-setup-db: ## Set up the benchmark database with diesel
+	@cd benchmark && $(CARGO) install diesel_cli --no-default-features --features sqlite
+	@cd benchmark && diesel setup
+	@cd benchmark && diesel migration run
+
+# Termbench targets
+termbench-build: ## Build the termbench project
+	@cd $(TERMBENCH_DIR) && $(CARGO) build --release
+
+termbench-clean: ## Clean termbench build artifacts
+	@cd $(TERMBENCH_DIR) && $(CARGO) clean
+
+termbench-results-dir: ## Create results directory for termbench
+	@mkdir -p $(TERMBENCH_RESULTS_DIR)
+
+termbench-run: termbench-build termbench-results-dir ## Run terminal emulator benchmarks
+	@cd $(TERMBENCH_DIR) && ./target/release/$(TERMBENCH_BIN) --dat "$(TERMBENCH_RESULTS_DIR)/$(shell date +%Y-%m-%d-%H%M%S).dat" $(TERMBENCH_BENCHMARK_DIR)
+
+termbench-run-all: termbench-build termbench-results-dir ## Run all benchmarks including extra benchmarks
+	@cd $(TERMBENCH_DIR) && ./target/release/$(TERMBENCH_BIN) --dat "$(TERMBENCH_RESULTS_DIR)/$(shell date +%Y-%m-%d-%H%M%S).dat" $(TERMBENCH_BENCHMARK_DIR) $(TERMBENCH_DIR)/extra_benchmarks
+
+termbench-summary: ## Generate summary SVG from benchmark data files
+	@cd $(TERMBENCH_RESULTS_DIR) && $(TERMBENCH_GNUPLOT_DIR)/summary.sh *.dat summary-$(shell date +%Y-%m-%d-%H%M%S).svg
+
+termbench-detailed: ## Generate detailed SVG from benchmark data files
+	@cd $(TERMBENCH_RESULTS_DIR) && $(TERMBENCH_GNUPLOT_DIR)/detailed.sh *.dat detailed-$(shell date +%Y-%m-%d-%H%M%S).svg
+
+termbench-fmt: ## Format termbench code with rustfmt
+	@cd $(TERMBENCH_DIR) && $(CARGO) fmt
+
+termbench-lint: ## Run clippy linter on termbench code
+	@cd $(TERMBENCH_DIR) && $(CARGO) clippy
+
+termbench-test: ## Run termbench tests
+	@cd $(TERMBENCH_DIR) && $(CARGO) test

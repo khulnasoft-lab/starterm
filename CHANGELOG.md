@@ -1231,7 +1231,7 @@ Notable changes to the `starterm_terminal` crate are documented in its
 - Alt modifier is no longer sent separately from the modified key
 - Various Windows issues, like color support and performance, through the new ConPTY
 - Fixed rendering non default mouse cursors in terminal mouse mode (linux)
-- Fix the `Copy` `mouse_bindings` action ([#1963](https://github.com/khulnasoft/starterm/issues/1963))
+- Fix the `Copy` `mouse_bindings` action ([#1963](https://github.com/khulnasoft-lab/starterm/issues/1963))
 - URLs are only launched when left-clicking
 - Removal of extra characters (like `,`) at the end of URLs has been improved
 - Single quotes (`'`) are removed from URLs when there is no matching opening quote

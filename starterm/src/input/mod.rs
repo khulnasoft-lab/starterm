@@ -133,6 +133,7 @@ pub trait ActionContext<T: EventListener> {
     fn hint_input(&mut self, _character: char) {}
     fn trigger_hint(&mut self, _hint: &HintMatch) {}
     fn expand_selection(&mut self) {}
+    fn semantic_word(&self, point: Point) -> String;
     fn on_terminal_input_start(&mut self) {}
     fn paste(&mut self, _text: &str, _bracketed: bool) {}
     fn spawn_daemon<I, S>(&self, _program: &str, _args: I)
@@ -284,16 +285,16 @@ impl<T: EventListener> Execute<T> for Action {
                     Some(selection) if !selection.is_empty() => selection,
                     // Get semantic word at the vi cursor position.
                     _ => ctx.semantic_word(ctx.terminal().vi_mode_cursor.point),
-                    };
+                };
 
-                    if !seed_text.is_empty() {
+                if !seed_text.is_empty() {
                     let direction = match self {
                         Action::Vi(ViAction::SemanticSearchForward) => Direction::Right,
                         _ => Direction::Left,
                     };
                     ctx.start_seeded_search(direction, seed_text);
-                    }
-                },
+                }
+            },
             action @ Action::Search(_) if !ctx.search_active() => {
                 debug!("Ignoring {action:?}: Search mode inactive");
             },
@@ -1082,7 +1083,7 @@ impl<T: EventListener, A: ActionContext<T>> Processor<T, A> {
 
         if let Some(mouse_state) = self.message_bar_cursor_state() {
             mouse_state
-        } else if self.ctx.display().highlighted_hint.as_ref().map_or(false, hint_highlighted) {
+        } else if self.ctx.display().highlighted_hint.as_ref().is_some_and(hint_highlighted) {
             CursorIcon::Pointer
         } else if !self.ctx.modifiers().state().shift_key() && self.ctx.mouse_mode() {
             CursorIcon::Default

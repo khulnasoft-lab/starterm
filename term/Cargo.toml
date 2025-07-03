@@ -1,12 +1,12 @@
 [package]
 name = "starterm_terminal"
 version = "0.25.1-dev"
-authors = ["Md Sulaiman <admin@khulnasoft.com>", "Joe Wilm <joe@jwilm.com>"]
+authors = ["Md Sulaiman <admin@khulnasoft.com>"]
 license = "Apache-2.0"
 description = "Library for writing terminal emulators"
 readme = "../README.md"
-homepage = "https://starterm.org"
-repository = "https://github.com/khulnasoft/starterm"
+homepage = "https://starterm.khulnasoft.com"
+repository = "https://github.com/khulnasoft-lab/starterm"
 edition = "2021"
 rust-version = "1.74.0"
 

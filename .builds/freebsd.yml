@@ -11,7 +11,7 @@ packages:
   - x11/libxkbcommon
 
 sources:
-  - https://github.com/khulnasoft/starterm
+  - https://github.com/khulnasoft-lab/starterm
 
 environment:
   PATH: /home/build/.cargo/bin:/bin:/usr/bin:/usr/local/bin
@@ -33,8 +33,8 @@ tasks:
       rustup component add clippy
       cargo clippy --all-targets
   - feature-wayland: |
-      cd khulnasoft/starterm
+      cd khulnasoft-lab/starterm
       RUSTFLAGS="-D warnings" cargo test --no-default-features --features=wayland
   - feature-x11: |
-      cd khulnasoft/starterm
+      cd khulnasoft-lab/starterm
       RUSTFLAGS="-D warnings" cargo test --no-default-features --features=x11

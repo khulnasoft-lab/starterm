@@ -1,12 +1,16 @@
 //! Starterm socket IPC.
 
+use serde::{Deserialize, Serialize};
 use std::ffi::OsStr;
 use std::io::{BufRead, BufReader, Error as IoError, ErrorKind, Result as IoResult, Write};
+use std::net::Shutdown;
 use std::os::unix::net::{UnixListener, UnixStream};
 use std::path::PathBuf;
+use std::sync::Arc;
 use std::{env, fs, process};
 
-use log::warn;
+use log::{error, warn};
+use std::result::Result;
 use winit::event_loop::EventLoopProxy;
 use winit::window::WindowId;
 
@@ -16,7 +20,7 @@ use crate::cli::{Options, SocketMessage};
 use crate::event::{Event, EventType};
 
 /// Environment variable name for the IPC socket path.
-const STERTERM_SOCKET_ENV: &str = "STERTERM_SOCKET";
+const STARTERM_SOCKET_ENV: &str = "STARTERM_SOCKET";
 
 /// Create an IPC socket.
 pub fn spawn_ipc_socket(
@@ -33,9 +37,9 @@ pub fn spawn_ipc_socket(
 
     let listener = UnixListener::bind(&socket_path)?;
 
-    env::set_var(STERTERM_SOCKET_ENV, socket_path.as_os_str());
+    env::set_var(STARTERM_SOCKET_ENV, socket_path.as_os_str());
     if options.daemon {
-        println!("STERTERM_SOCKET={}; export STERTERM_SOCKET", socket_path.display());
+        println!("STARTERM_SOCKET={}; export STARTERM_SOCKET", socket_path.display());
     }
 
     // Spawn a thread to listen on the IPC socket.
@@ -43,9 +47,9 @@ pub fn spawn_ipc_socket(
         let mut data = String::new();
         for stream in listener.incoming().filter_map(Result::ok) {
             data.clear();
-            let mut stream = BufReader::new(stream);
+            let mut reader = BufReader::new(&stream);
 
-            match stream.read_line(&mut data) {
+            match reader.read_line(&mut data) {
                 Ok(0) | Err(_) => continue,
                 Ok(_) => (),
             };
@@ -73,6 +77,12 @@ pub fn spawn_ipc_socket(
                     let event = Event::new(EventType::IpcConfig(ipc_config), window_id);
                     let _ = event_proxy.send_event(event);
                 },
+                SocketMessage::GetConfig(config) => {
+                    let window_id =
+                        config.window_id.and_then(|id| u64::try_from(id).ok()).map(WindowId::from);
+                    let event = Event::new(EventType::IpcGetConfig(Arc::new(stream)), window_id);
+                    let _ = event_proxy.send_event(event);
+                },
             }
         }
     });
@@ -84,10 +94,57 @@ pub fn spawn_ipc_socket(
 pub fn send_message(socket: Option<PathBuf>, message: SocketMessage) -> IoResult<()> {
     let mut socket = find_socket(socket)?;
 
-    let message = serde_json::to_string(&message)?;
-    socket.write_all(message[..].as_bytes())?;
+    // Write message to socket.
+    let message_json = serde_json::to_string(&message)?;
+    socket.write_all(message_json.as_bytes())?;
     let _ = socket.flush();
 
+    // Shutdown write end, to allow reading.
+    socket.shutdown(Shutdown::Write)?;
+
+    // Get matching IPC reply.
+    handle_reply(&socket, &message)?;
+
+    Ok(())
+}
+
+/// Process IPC responses.
+fn handle_reply(stream: &UnixStream, message: &SocketMessage) -> IoResult<()> {
+    // Read reply, returning early if there is none.
+    let mut buffer = String::new();
+    let mut reader = BufReader::new(stream);
+    if let Ok(0) | Err(_) = reader.read_line(&mut buffer) {
+        return Ok(());
+    }
+
+    // Parse IPC reply.
+    let reply: SocketReply = serde_json::from_str(&buffer)
+        .map_err(|err| IoError::other(format!("Invalid IPC format: {err}")))?;
+
+    // Ensure reply matches request.
+    match (message, &reply) {
+        // Write requested config to STDOUT.
+        (SocketMessage::GetConfig(..), SocketReply::GetConfig(config)) => {
+            println!("{config}");
+            Ok(())
+        },
+        // Ignore requests without reply.
+        _ => Ok(()),
+    }
+}
+
+/// Send IPC message reply.
+pub fn send_reply(stream: &mut UnixStream, message: SocketReply) {
+    if let Err(err) = send_reply_fallible(stream, message) {
+        error!("Failed to send IPC reply: {err}");
+    }
+}
+
+/// Send IPC message reply, returning possible errors.
+fn send_reply_fallible(stream: &mut UnixStream, message: SocketReply) -> IoResult<()> {
+    let json = serde_json::to_string(&message).map_err(IoError::other)?;
+    stream.write_all(json.as_bytes())?;
+    stream.flush()?;
     Ok(())
 }
 
@@ -95,8 +152,9 @@ pub fn send_message(socket: Option<PathBuf>, message: SocketMessage) -> IoResult
 #[cfg(not(target_os = "macos"))]
 fn socket_dir() -> PathBuf {
     xdg::BaseDirectories::with_prefix("starterm")
+        .get_runtime_directory()
+        .map(ToOwned::to_owned)
         .ok()
-        .and_then(|xdg| xdg.get_runtime_directory().map(ToOwned::to_owned).ok())
         .and_then(|path| fs::create_dir_all(&path).map(|_| path).ok())
         .unwrap_or_else(env::temp_dir)
 }
@@ -119,7 +177,7 @@ fn find_socket(socket_path: Option<PathBuf>) -> IoResult<UnixStream> {
     }
 
     // Handle environment variable.
-    if let Ok(path) = env::var(STERTERM_SOCKET_ENV) {
+    if let Ok(path) = env::var(STARTERM_SOCKET_ENV) {
         let socket_path = PathBuf::from(path);
         if let Ok(socket) = UnixStream::connect(socket_path) {
             return Ok(socket);
@@ -170,4 +228,10 @@ fn socket_prefix() -> String {
 #[cfg(target_os = "macos")]
 fn socket_prefix() -> String {
     String::from("Starterm")
+}
+
+/// IPC socket replies.
+#[derive(Serialize, Deserialize, Debug)]
+pub enum SocketReply {
+    GetConfig(String),
 }

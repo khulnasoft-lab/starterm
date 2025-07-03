@@ -17,29 +17,29 @@ Table of Contents:
 ## Feature Requests
 
 Feature requests should be reported in the
-[Starterm issue tracker](https://github.com/khulnasoft/starterm/issues). To reduce the number of
+[Starterm issue tracker](https://github.com/khulnasoft-lab/starterm/issues). To reduce the number of
 duplicates, please make sure to check the existing
-[enhancement](https://github.com/khulnasoft/starterm/issues?utf8=%E2%9C%93&q=is%3Aissue+label%3Aenhancement)
+[enhancement](https://github.com/khulnasoft-lab/starterm/issues?utf8=%E2%9C%93&q=is%3Aissue+label%3Aenhancement)
 and
-[missing feature](https://github.com/khulnasoft/starterm/issues?utf8=%E2%9C%93&q=is%3Aissue+label%3A%22B+-+missing+feature%22)
+[missing feature](https://github.com/khulnasoft-lab/starterm/issues?utf8=%E2%9C%93&q=is%3Aissue+label%3A%22B+-+missing+feature%22)
 issues.
 
 ## Bug Reports
 
 Bug reports should be reported in the
-[Starterm issue tracker](https://github.com/khulnasoft/starterm/issues).
+[Starterm issue tracker](https://github.com/khulnasoft-lab/starterm/issues).
 
 If a bug was not present in a previous version of Starterm, providing the exact commit which
 introduced the regression helps out a lot.
 
 ## Patches / Pull Requests
 
-All patches have to be sent on GitHub as [pull requests](https://github.com/khulnasoft/starterm/pulls).
+All patches have to be sent on GitHub as [pull requests](https://github.com/khulnasoft-lab/starterm/pulls).
 
 If you are looking for a place to start contributing to Starterm, take a look at the
-[help wanted](https://github.com/khulnasoft/starterm/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22)
+[help wanted](https://github.com/khulnasoft-lab/starterm/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22)
 and
-[easy](https://github.com/khulnasoft/starterm/issues?q=is%3Aopen+is%3Aissue+label%3A%22D+-+easy%22)
+[easy](https://github.com/khulnasoft-lab/starterm/issues?q=is%3Aopen+is%3Aissue+label%3A%22D+-+easy%22)
 issues.
 
 You can find the minimum supported Rust version in Starterm's manifest file
@@ -75,9 +75,9 @@ If changes could affect throughput or latency of Starterm, these aspects should 
 prevent potential regressions. Since there are often big performance differences between Rust's
 nightly releases, it's advised to perform these tests on the latest Rust stable release.
 
-Starterm mainly uses the [vtebench](https://github.com/khulnasoft/vtebench) tool for testing Starterm's
+Starterm mainly uses the [termbench](https://github.com/khulnasoft-lab/termbench) tool for testing Starterm's
 performance. Instructions on how to use it can be found in its
-[README](https://github.com/khulnasoft/vtebench/blob/master/README.md).
+[README](https://github.com/khulnasoft-lab/termbench/blob/master/README.md).
 
 Latency is another important factor for Starterm. On X11, Windows, and macOS the
 [typometer](https://github.com/pavelfatin/typometer) tool allows measuring keyboard latency.
@@ -160,7 +160,7 @@ the last release yet.
 # Contact
 
 If there are any outstanding questions about contributing to Starterm, they can be asked on the
-[Starterm issue tracker](https://github.com/khulnasoft/starterm/issues).
+[Starterm issue tracker](https://github.com/khulnasoft-lab/starterm/issues).
 
 As a more immediate and direct form of communication, the Starterm IRC channel (`#starterm` on
 Libera.Chat) can be used to contact many of the Starterm contributors.
