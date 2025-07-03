@@ -1,6 +1,6 @@
 [package]
 name = "starterm_terminal"
-version = "0.25.1-dev"
+version = "0.1.1-dev"
 authors = ["Md Sulaiman <admin@khulnasoft.com>"]
 license = "Apache-2.0"
 description = "Library for writing terminal emulators"

@@ -11,7 +11,7 @@ edition = "2021"
 
 [dependencies.starterm_terminal]
 path = "../term"
-version = "0.25.1-dev"
+version = "0.1.1-dev"
 
 [dependencies.starterm_config_derive]
 path = "../config/derive"
