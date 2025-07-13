@@ -6,21 +6,27 @@
 
 use super::agent::{Agent, Agentic};
 use super::context::AiContext;
+use super::reasoning::ReasoningEngine;
 use super::suggestions::{Suggestion, SuggestionEngine};
+use super::workflow_gen::GeneratedWorkflow;
+use crate::ai::llm::client::LlmClient;
+use std::sync::Arc;
 
 /// The unified AI Core for the terminal.
 pub struct AiCore {
     agent: Agent,
     suggestion_engine: SuggestionEngine,
-    // TODO: Add other components like the learning and reasoning engines.
+    reasoning_engine: Arc<ReasoningEngine>, // Added
 }
 
 impl AiCore {
-    /// Creates a new `AiCore`.
-    pub fn new() -> Self {
+    /// Creates a new `AiCore` with a given LLM client.
+    pub fn new(llm_client: Arc<dyn LlmClient>) -> Self {
+        let reasoning_engine = Arc::new(ReasoningEngine::new());
         Self {
-            agent: Agent::new(),
-            suggestion_engine: SuggestionEngine::new(),
+            agent: Agent::new(llm_client),
+            suggestion_engine: SuggestionEngine::new(reasoning_engine.clone()),
+            reasoning_engine,
         }
     }
 
@@ -31,13 +37,7 @@ impl AiCore {
     }
 
     /// Evaluates a natural language prompt using the AI Agent to generate a workflow.
-    pub async fn evaluate_prompt(&self, prompt: &str, context: &AiContext<'_>) -> Result<super::workflow_gen::GeneratedWorkflow, String> {
+    pub async fn evaluate_prompt(&self, prompt: &str, context: &AiContext<'_>) -> Result<GeneratedWorkflow, String> {
         self.agent.evaluate(prompt, context).await
-    }
-}
-
-impl Default for AiCore {
-    fn default() -> Self {
-        Self::new()
     }
 } 

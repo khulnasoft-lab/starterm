@@ -13,6 +13,8 @@ pub mod renderer;
 pub mod workflows_sidebar;
 pub mod syntax_highlight;
 pub mod mcq;
+pub mod state;
+pub mod suggestions_view;
 
 pub use block::{Block, BlockConfig};
 pub use layout::{Layout, LayoutManager};

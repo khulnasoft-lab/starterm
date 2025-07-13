@@ -1,3 +1,5 @@
+//! Application configuration management.
+
 use std::fmt::{self, Display, Formatter};
 use std::path::{Path, PathBuf};
 use std::result::Result as StdResult;
@@ -10,6 +12,9 @@ use toml::de::Error as TomlError;
 use toml::ser::Error as TomlSeError;
 use toml::{Table, Value};
 
+use crate::config::ai::AiConfig;
+
+pub mod ai;
 pub mod bell;
 pub mod color;
 pub mod cursor;
@@ -35,6 +40,23 @@ pub use crate::config::bindings::{
 };
 pub use crate::config::ui_config::UiConfig;
 use crate::logging::LOG_TARGET_CONFIG;
+
+/// The top-level application configuration.
+#[derive(Debug, Deserialize, Default)]
+pub struct Config {
+    #[serde(default)]
+    pub ai: AiConfig,
+    // Other config sections like `window`, `font`, etc.
+}
+
+impl Config {
+    /// Loads configuration from a default file path.
+    pub fn load() -> Self {
+        // TODO: Implement actual file loading from disk (e.g., `~/.config/starterm/starterm.toml`)
+        // For now, we return a default config.
+        Default::default()
+    }
+}
 
 /// Maximum number of depth for the configuration file imports.
 pub const IMPORT_RECURSION_LIMIT: usize = 5;

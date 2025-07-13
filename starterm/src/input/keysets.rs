@@ -2,9 +2,10 @@
 //! to specific actions within the terminal.
 
 use std::collections::HashMap;
+use crate::ai::suggestions::SuggestionAction; // Import suggestion action
 
 // TODO: This should be an exhaustive enum of all possible actions in Starterm.
-#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+#[derive(Debug, Clone, PartialEq)] // Removed Eq, Hash as SuggestionAction is not hashable
 pub enum Action {
     ScrollUp,
     ScrollDown,
@@ -12,6 +13,8 @@ pub enum Action {
     Paste,
     EnterSearchMode,
     Quit,
+    /// A new action to apply an AI suggestion.
+    ApplySuggestion(SuggestionAction),
 }
 
 // TODO: This should represent a key combination, including modifiers.

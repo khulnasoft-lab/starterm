@@ -66,29 +66,71 @@ use crate::event::{Event, Processor};
 #[cfg(target_os = "macos")]
 use crate::macos::locale;
 
-fn main() -> Result<(), Box<dyn Error>> {
-    #[cfg(windows)]
-    panic::attach_handler();
+use starterm::ai::core::AiCore;
+use starterm::ai::llm::client::LlmClient;
+use starterm::ai::llm::openai::OpenAiClient;
+use starterm::config::Config;
+use std::sync::Arc;
 
-    // When linked with the windows subsystem windows won't automatically attach
-    // to the console of the parent process, so we do it explicitly. This fails
-    // silently if the parent has no console.
-    #[cfg(windows)]
-    unsafe {
-        AttachConsole(ATTACH_PARENT_PROCESS);
+// A dummy client for when no real provider is configured.
+struct NoOpLlmClient;
+#[async_trait::async_trait]
+impl LlmClient for NoOpLlmClient {
+    async fn execute_chat(&self, _request: starterm::ai::llm::client::LlmRequest) -> Result<starterm::ai::llm::client::LlmResponse, starterm::ai::llm::client::LlmError> {
+        Err(starterm::ai::llm::client::LlmError::ApiError {
+            status: 501,
+            body: "No LLM provider configured.".to_string(),
+        })
     }
+}
 
-    // Load command line options.
-    let options = Options::new();
+// A simplified representation of the main application entry point.
+#[tokio::main]
+async fn main() {
+    println!("Starting Starterm...");
 
-    match options.subcommands {
-        #[cfg(unix)]
-        Some(Subcommands::Msg(options)) => msg(options)?,
-        Some(Subcommands::Migrate(options)) => migrate::migrate(options),
-        None => starterm(options)?,
+    // 1. Load configuration from disk.
+    let config = Config::load();
+
+    // 2. Instantiate the appropriate LLM client based on the config.
+    let llm_client: Arc<dyn LlmClient> = {
+        if let Some(api_key) = config.ai.openai.api_key {
+            println!("OpenAI provider configured.");
+            Arc::new(OpenAiClient::new(api_key, config.ai.openai.api_url))
+        } else {
+            println!("No LLM provider configured. AI agent will not be functional.");
+            Arc::new(NoOpLlmClient)
+        }
+    };
+
+    // 3. Create the AiCore and inject the client.
+    let ai_core = AiCore::new(llm_client);
+
+    // 4. Start the main application event loop...
+    println!("AI Core initialized. Application is ready.");
+    // `run_event_loop(ai_core)` would be called here.
+
+    // Example Usage:
+    // This demonstrates how the fully-wired system would be used.
+    let context = starterm::ai::context::AiContext {
+        current_input: "ls -la",
+        scrollback: vec!["starterm-macros/", "starterm/"],
+        cwd: "/home/user/dev/starterm",
+        shell_type: "bash",
+        last_exit_code: Some(0),
+    };
+    
+    match ai_core.evaluate_prompt("list all rust files and count them", &context).await {
+        Ok(gen_workflow) => {
+            println!("\n--- Generated Workflow ---");
+            println!("Name: {}", gen_workflow.workflow.name);
+            println!("Explanation: {}", gen_workflow.explanation);
+            for step in gen_workflow.workflow.steps {
+                 println!("Step: {:?}", step);
+            }
+        }
+        Err(e) => eprintln!("\nAI Error: {}", e),
     }
-
-    Ok(())
 }
 
 /// `msg` subcommand entrypoint.

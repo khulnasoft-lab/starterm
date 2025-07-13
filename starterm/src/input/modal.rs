@@ -2,6 +2,7 @@
 //! different behaviors depending on the current mode (e.g., Normal, Insert).
 
 use super::keysets::{Action, KeyCombination, KeysetManager};
+use crate::ui::state::{InteractiveState, UiState}; // Import UI state
 
 /// Defines the possible input modes.
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -31,9 +32,34 @@ impl ModalHandler {
     }
 
     /// Processes a key combination and returns an optional action.
-    /// In `Insert` mode, it might return `None` to indicate the key
-    /// should be passed through to the underlying shell.
-    pub fn handle_key(&mut self, key: &KeyCombination) -> Option<Action> {
+    /// It now takes the UI state to decide how to handle input.
+    pub fn handle_key(&mut self, key: &KeyCombination, ui_state: &mut UiState) -> Option<Action> {
+        // First, check if an interactive UI component should capture the input.
+        if let InteractiveState::Suggestions(state) = &mut ui_state.interactive_state {
+            match key.key.as_str() {
+                "Tab" | "ArrowDown" => {
+                    state.selected_index = (state.selected_index + 1) % state.suggestions.len();
+                    return None; // Input handled by UI, no further action needed.
+                }
+                "ArrowUp" => {
+                    state.selected_index = (state.selected_index + state.suggestions.len() - 1) % state.suggestions.len();
+                    return None;
+                }
+                "Enter" => {
+                    if let Some(suggestion) = state.suggestions.get(state.selected_index) {
+                        // Return a new action to apply the suggestion.
+                        return Some(Action::ApplySuggestion(suggestion.action.clone()));
+                    }
+                }
+                "Escape" => {
+                    ui_state.dismiss_interactive();
+                    return None;
+                }
+                _ => {} // Other keys are ignored when suggestions are active.
+            }
+        }
+
+        // If no interactive UI handled the key, proceed with normal logic.
         match self.mode {
             InputMode::Insert => {
                 // TODO: Check for an "escape" keybinding to switch to Normal mode.
