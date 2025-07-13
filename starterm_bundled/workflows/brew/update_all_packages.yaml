@@ -1,0 +1,11 @@
+---
+name: Update all Homebrew packages
+command: brew update && brew upgrade
+tags:
+  - homebrew
+  - system
+description: Update Homebrew and upgrade all installed packages to their latest versions.
+source_url: "https://docs.brew.sh/Manpage"
+author: starterm
+author_url: "https://github.com/khulnasoft-lab/starterm"
+shells: [] 

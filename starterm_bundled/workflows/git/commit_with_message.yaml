@@ -1,0 +1,15 @@
+---
+name: "Git commit with message"
+command: "git add . && git commit -m '{{message}}'"
+tags:
+  - "git"
+  - "version-control"
+description: "Stage all changes and commit with a custom message"
+arguments:
+  - name: "message"
+    description: "Commit message"
+    default_value: "Update"
+source_url: "https://git-scm.com/docs/git-commit"
+author: "starterm"
+author_url: "https://github.com/khulnasoft-lab/starterm"
+shells: [] 

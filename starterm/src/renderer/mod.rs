@@ -339,6 +339,144 @@ impl Renderer {
         }
     }
 
+    /// Draw UI blocks.
+    pub fn draw_blocks(&mut self, size_info: &SizeInfo, blocks: &[crate::ui::Block]) {
+        
+        let mut rects = Vec::new();
+        for block in blocks {
+            let rect = RenderRect {
+                x: block.position.x,
+                y: block.position.y,
+                width: block.size.width,
+                height: block.size.height,
+                color: block.style.background.unwrap_or(crate::display::color::Rgb::new(40, 44, 52)),
+                alpha: 1.0,
+                kind: crate::renderer::rects::RectKind::Normal,
+            };
+            rects.push(rect);
+        }
+
+        // Create default metrics since we don't have access to font metrics here
+        let metrics = Metrics {
+            descent: 2.0,
+            line_height: 16.0,
+            underline_position: 1.0,
+            underline_thickness: 1.0,
+            strikeout_position: 8.0,
+            strikeout_thickness: 1.0,
+            average_advance: 8.0,
+        };
+        
+        self.draw_rects(size_info, &metrics, rects);
+    }
+
+    /// Draw a rectangle with specified color
+    pub fn draw_rect(&mut self, x: f32, y: f32, width: f32, height: f32, color: [f32; 4]) {
+        let metrics = Metrics {
+            descent: 2.0,
+            line_height: 16.0,
+            underline_position: 1.0,
+            underline_thickness: 1.0,
+            strikeout_position: 8.0,
+            strikeout_thickness: 1.0,
+            average_advance: 8.0,
+        };
+        
+        let size_info = SizeInfo::new(800.0, 600.0, 1.0, 1.0, 0.0, 0.0, false);
+        let rect = RenderRect {
+            x,
+            y,
+            width,
+            height,
+            color: Rgb::new((color[0] * 255.0) as u8, (color[1] * 255.0) as u8, (color[2] * 255.0) as u8),
+            alpha: color[3],
+            kind: crate::renderer::rects::RectKind::Normal,
+        };
+        
+        self.draw_rects(&size_info, &metrics, vec![rect]);
+    }
+    
+    /// Draw text at specified position
+    pub fn draw_text(&mut self, _text: &str, _x: f32, _y: f32, _font_size: f32, _color: [f32; 4]) {
+        // TODO: Implement text rendering
+        // For now, this is a placeholder
+        let _fg = Rgb::new((_color[0] * 255.0) as u8, (_color[1] * 255.0) as u8, (_color[2] * 255.0) as u8);
+        let _bg = Rgb::new(0, 0, 0); // Transparent background
+    }
+    
+    /// Measure text width
+    pub fn measure_text_width(&self, _text: &str, _font_size: f32) -> f32 {
+        // TODO: Implement text measurement
+        // For now, return a placeholder value
+        0.0
+    }
+    
+    /// Draw border
+    pub fn draw_border(&mut self, x: f32, y: f32, width: f32, height: f32, color: [f32; 4], thickness: f32) {
+        let metrics = Metrics {
+            descent: 2.0,
+            line_height: 16.0,
+            underline_position: 1.0,
+            underline_thickness: 1.0,
+            strikeout_position: 8.0,
+            strikeout_thickness: 1.0,
+            average_advance: 8.0,
+        };
+        
+        let size_info = SizeInfo::new(800.0, 600.0, 1.0, 1.0, 0.0, 0.0, false);
+        let _point = Point::new(0, starterm_terminal::index::Column(0));
+        let _size_info = SizeInfo::new(800.0, 600.0, 1.0, 1.0, 0.0, 0.0, false);
+        
+        // Draw four border lines
+        let border_color = Rgb::new((color[0] * 255.0) as u8, (color[1] * 255.0) as u8, (color[2] * 255.0) as u8);
+        
+        // Top border
+        let top_rect = RenderRect {
+            x,
+            y,
+            width,
+            height: thickness,
+            color: border_color,
+            alpha: color[3],
+            kind: crate::renderer::rects::RectKind::Normal,
+        };
+        
+        // Bottom border
+        let bottom_rect = RenderRect {
+            x,
+            y: y + height - thickness,
+            width,
+            height: thickness,
+            color: border_color,
+            alpha: color[3],
+            kind: crate::renderer::rects::RectKind::Normal,
+        };
+        
+        // Left border
+        let left_rect = RenderRect {
+            x,
+            y,
+            width: thickness,
+            height,
+            color: border_color,
+            alpha: color[3],
+            kind: crate::renderer::rects::RectKind::Normal,
+        };
+        
+        // Right border
+        let right_rect = RenderRect {
+            x: x + width - thickness,
+            y,
+            width: thickness,
+            height,
+            color: border_color,
+            alpha: color[3],
+            kind: crate::renderer::rects::RectKind::Normal,
+        };
+        
+        self.draw_rects(&size_info, &metrics, vec![top_rect, bottom_rect, left_rect, right_rect]);
+    }
+
     /// Resize the renderer.
     pub fn resize(&self, size_info: &SizeInfo) {
         self.set_viewport(size_info);

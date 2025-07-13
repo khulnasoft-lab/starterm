@@ -34,6 +34,7 @@ use crate::config::selection::Selection;
 use crate::config::terminal::Terminal;
 use crate::config::window::WindowConfig;
 use crate::config::LOG_TARGET_CONFIG;
+use crate::ui::UiSystemConfig;
 
 /// Regex used for the default URL hint.
 #[rustfmt::skip]
@@ -99,6 +100,10 @@ pub struct UiConfig {
     /// [`toml::Value`], but still present to prevent unused field warnings.
     #[config(deprecated = "use general.import instead")]
     import: Option<Vec<String>>,
+
+    /// UI system configuration.
+    #[serde(default)]
+    pub ui: UiSystemConfig,
 
     /// Shell startup directory.
     #[config(deprecated = "use general.working_directory instead")]

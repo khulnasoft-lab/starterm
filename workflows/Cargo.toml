@@ -1,0 +1,7 @@
+[workspace]
+members = [
+    "workflows",
+    "workflow-types",
+    "examples"
+]
+resolver = "2" 

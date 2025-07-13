@@ -4,7 +4,12 @@
 //! In order to figure that out, state about which modifier keys are pressed
 //! needs to be tracked. Additionally, we need a bit of a state machine to
 //! determine what to do when a non-modifier key is pressed.
+//! Manages all user input, including keyboard and mouse events.
+//! This module is responsible for handling keybindings, input modes
+//! (e.g., vi-like modal editing), and translating events into actions.
 
+pub mod keysets;
+pub mod modal;
 use std::borrow::Cow;
 use std::cmp::{max, min, Ordering};
 use std::collections::HashSet;

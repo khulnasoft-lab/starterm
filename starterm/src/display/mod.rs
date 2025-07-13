@@ -57,6 +57,7 @@ use crate::renderer::{self, platform, GlyphCache, Renderer};
 use crate::scheduler::{Scheduler, TimerId, Topic};
 use crate::string::{ShortenDirection, StrShortener};
 
+
 pub mod color;
 pub mod content;
 pub mod cursor;
@@ -397,6 +398,8 @@ pub struct Display {
 
     glyph_cache: GlyphCache,
     meter: Meter,
+
+
 }
 
 impl Display {
@@ -1453,6 +1456,8 @@ impl Display {
 
         scheduler.schedule(event, swap_timeout, false, timer_id);
     }
+
+
 }
 
 impl Drop for Display {

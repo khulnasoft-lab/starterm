@@ -46,7 +46,9 @@ mod panic;
 mod renderer;
 mod scheduler;
 mod string;
+mod ui;
 mod window_context;
+mod workflows;
 
 mod gl {
     #![allow(clippy::all)]

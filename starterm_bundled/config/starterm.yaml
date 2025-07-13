@@ -1,0 +1,288 @@
+# Starterm Configuration File (YAML)
+# This is a modern YAML-based configuration template for Starterm
+# Based on the original starterm.toml but with enhanced structure
+
+# Import color theme (reference to bundled themes)
+import:
+  - "themes/catppuccin_mocha.yaml"
+
+# Environment settings
+env:
+  TERM: "xterm-256color"
+
+# Terminal settings
+terminal:
+  shell:
+    program: "/bin/zsh"
+    args: ["--login"]
+  
+  working_directory: "~"
+  
+  # Scrollback buffer
+  scrolling:
+    history: 10000
+    multiplier: 3
+    auto_scroll: true
+
+# Window configuration
+window:
+  # Window dimensions
+  dimensions:
+    columns: 120
+    lines: 40
+  
+  # Window position
+  position:
+    x: 0
+    y: 0
+  
+  # Window decorations
+  decorations: "full"  # full, none, transparent, buttonless
+  
+  # Window opacity
+  opacity: 1.0
+  
+  # Window title
+  title: "Starterm"
+  dynamic_title: true
+  
+  # Padding
+  padding:
+    x: 2
+    y: 2
+
+# Font configuration
+font:
+  # Normal font
+  normal:
+    family: "JetBrains Mono"
+    style: "Regular"
+  
+  # Bold font
+  bold:
+    family: "JetBrains Mono"
+    style: "Bold"
+  
+  # Italic font
+  italic:
+    family: "JetBrains Mono"
+    style: "Italic"
+  
+  # Bold italic font
+  bold_italic:
+    family: "JetBrains Mono"
+    style: "Bold Italic"
+  
+  # Font size
+  size: 12.0
+  
+  # Built-in font fallback
+  builtin_box_drawing: true
+
+# Cursor configuration
+cursor:
+  # Cursor style (Block, Underline, Beam)
+  style:
+    shape: "Block"
+    blinking: "Never"  # Never, Off, On, Always
+  
+  # Vi mode cursor style
+  vi_mode_style:
+    shape: "Block"
+    blinking: "Never"
+  
+  # Cursor thickness (for Underline and Beam)
+  thickness: 0.15
+  
+  # Unfocused cursor
+  unfocused_hollow: true
+
+# Selection configuration
+selection:
+  # Characters that are used as word separators
+  semantic_escape_chars: ",│`|:\"' ()[]{}<>\\t"
+  
+  # When set to true, selected text will be copied to the primary clipboard
+  save_to_clipboard: false
+
+# Bell configuration
+bell:
+  # Bell animation (Ease, EaseOut, EaseOutSine, EaseOutQuad, EaseOutCubic, EaseOutQuart, EaseOutQuint, EaseOutExpo, EaseOutCirc, Linear)
+  animation: "EaseOutExpo"
+  
+  # Duration of bell flash in milliseconds
+  duration: 0
+  
+  # Bell color
+  color: "#ffffff"
+  
+  # Command to run when bell is received
+  command:
+    program: "sh"
+    args: ["-c", "echo 'Bell!'"]
+
+# Mouse configuration
+mouse:
+  # Click settings
+  double_click:
+    threshold: 300
+  
+  triple_click:
+    threshold: 300
+  
+  # Hide cursor when typing
+  hide_when_typing: false
+  
+  # URL launcher
+  url:
+    # Program to use for opening URLs
+    launcher:
+      program: "open"
+      args: []
+    
+    # URL modifiers
+    modifiers: "Command"
+
+# Key bindings
+keyboard:
+  bindings:
+    # Terminal functions
+    - key: "V"
+      mods: "Command"
+      action: "Paste"
+    
+    - key: "C"
+      mods: "Command"
+      action: "Copy"
+    
+    - key: "Q"
+      mods: "Command"
+      action: "Quit"
+    
+    - key: "N"
+      mods: "Command"
+      action: "SpawnNewInstance"
+    
+    - key: "Return"
+      mods: "Command"
+      action: "ToggleFullscreen"
+    
+    # Vi mode bindings
+    - key: "Space"
+      mods: "Shift|Control"
+      action: "ToggleViMode"
+    
+    # Search
+    - key: "F"
+      mods: "Command"
+      action: "SearchForward"
+    
+    - key: "B"
+      mods: "Command"
+      action: "SearchBackward"
+
+# Debug settings
+debug:
+  # Display FPS and timing information
+  render_timer: false
+  
+  # Persist logs
+  persistent_logging: false
+  
+  # Log level (Off, Error, Warn, Info, Debug, Trace)
+  log_level: "Warn"
+  
+  # Print performance stats
+  print_events: false
+
+# UI Configuration (Workflow System)
+ui:
+  # Workflow sidebar
+  workflows:
+    enabled: true
+    position: "left"  # left, right
+    width: 300
+    collapsible: true
+    default_collapsed: false
+    
+    # Search configuration
+    search:
+      enabled: true
+      fuzzy_matching: true
+      case_sensitive: false
+    
+    # Display options
+    display:
+      show_icons: true
+      show_descriptions: true
+      group_by_category: true
+
+# Workflow configuration
+workflows:
+  # Workflow directories to scan
+  directories:
+    - "~/.config/starterm/workflows"
+    - "./workflows/specs"
+  
+  # Auto-reload on file changes
+  auto_reload: true
+  
+  # Default shell for workflow execution
+  default_shell: "/bin/zsh"
+
+# Theme configuration
+theme:
+  # Theme name (corresponds to file in themes/ directory)
+  name: "catppuccin_mocha"
+  
+  # Theme variants for different times of day
+  auto_switch:
+    enabled: false
+    light_theme: "catppuccin_latte"
+    dark_theme: "catppuccin_mocha"
+    switch_time:
+      morning: "06:00"
+      evening: "18:00"
+
+# Performance settings
+performance:
+  # Refresh rate (Hz)
+  refresh_rate: 60
+  
+  # Rendering backend (OpenGL, Vulkan, Metal)
+  renderer: "OpenGL"
+  
+  # V-Sync
+  vsync: true
+  
+  # GPU acceleration
+  gpu_acceleration: true
+
+# Experimental features
+experimental:
+  # Enable new features (use with caution)
+  ai_assistance: false
+  voice_commands: false
+  gesture_controls: false
+  
+  # Performance experiments
+  zero_copy_rendering: false
+  parallel_text_rendering: false
+
+# Logging configuration
+logging:
+  # Log file location
+  file: "~/.config/starterm/starterm.log"
+  
+  # Log rotation
+  rotation:
+    enabled: true
+    max_size: "10MB"
+    max_files: 5
+  
+  # Component-specific log levels
+  components:
+    renderer: "Error"
+    workflow: "Info"
+    input: "Warn"
+    ai: "Debug"
